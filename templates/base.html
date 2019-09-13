@@ -1,0 +1,368 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/_heads.html" %}
+
+    <title>{% block title %}主页{% endblock %}</title>
+
+    {% block css %}{% endblock %}
+
+    <!-- Google Font -->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="../../index2.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>flow</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>猹</b><b>flow</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {% if user.photo %}
+                                <img src="{{ user.photo | striptags }}"
+                                     class="user-image"
+                                     id="my_photo" name="user_face" alt="User Image">
+                            {% else %}
+                                <img name="user_face" src="{% static '/img/evelyn.png' %}"
+                                     class="user-image"
+                                     id="my_photo" alt="User Image">
+                            {% endif %}
+
+                            <span class="hidden-xs">{{ request.user.username }}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                {% if user.photo %}
+                                    <img src="{{ user.photo | striptags }}"
+                                         class="img-circle"
+                                         name="user_face" alt="User Image">
+                                {% else %}
+                                    <img name="user_face" src="{% static '/img/evelyn.png' %}"
+                                         class="img-circle"
+                                         alt="User Image">
+                                {% endif %}
+
+
+                                <p>
+                                    {{ request.user.username }}
+                                    {% if request.user.company %}
+                                        -{{ request.user.company }}
+                                    {% endif %}
+                                    {% if request.user.department %}
+                                        - {{ request.user.department }}
+                                    {% endif %}
+
+                                    <small id="show"></small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="{% url 'users:my_information' %}" class="btn btn-default btn-flat">个人信息</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="{% url "logout" %}" class="btn btn-default btn-flat">退出</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                    <li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- =============================================== -->
+
+    <!-- Left side column. contains the sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+
+                    {% if user.photo %}
+                        <img src="{{ user.photo | striptags }}"
+                             class="img-circle"
+                             name="user_face" alt="User Image">
+
+                    {% else %}
+                        <img name="user_face" src="{% static '/img/evelyn.png' %}"
+                             class="img-circle"
+                             alt="User Image">
+                    {% endif %}
+                </div>
+                <div class="pull-left info">
+                    <p><a style="color: white" href="{% url 'users:my_information' %}">{{ request.user.username }}</a></p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> 上线</a>
+                </div>
+            </div>
+            <!-- search form -->
+            {#            <form action="#" method="get" class="sidebar-form">#}
+            {#                <div class="input-group">#}
+            {#                    <input type="text" name="q" class="form-control" placeholder="Search...">#}
+            {#                    <span class="input-group-btn">#}
+            {#                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>#}
+            {#                </button>#}
+            {#              </span>#}
+            {#                </div>#}
+            {#            </form>#}
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">主面板</li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pencil"></i> <span>问题管理</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{% url "question:show_my_questions" %}"><i class="fa fa-circle-o"></i> 我提交的问题</a>
+                        </li>
+                        <li><a href="{% url "question:create_question" %}"><i class="fa fa-circle-o"></i> 提交问题</a></li>
+                        <li><a href="{% url "question:kill_question" %}"><i class="fa fa-circle-o"></i> 待处理问题列表</a></li>
+                        <li><a href="/static/index2.html"><i class="fa fa-circle-o"></i> 处理问题</a></li>
+
+                        <li><a href="/static/index2.html"><i class="fa fa-circle-o"></i> 问题列表</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>变更管理</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{% url "workflow:add_alters" %}"><i class="fa fa-circle-o"></i>新建变更申请</a></li>
+                        <li><a href="{% url 'workflow:show_my_alters' %}"><i class="fa fa-circle-o"></i>我创建的变更</a></li>
+                        <li><a href="{% url 'workflow:show_my_alters' %}"><i class="fa fa-circle-o"></i>已提交入系统的变更</a>
+                        </li>
+                        <li><a href="{% url "workflow:my_alter_approvals" %}"><i class="fa fa-circle-o"></i>需要我审批的变更</a>
+                        </li>
+                        <li><a href="{% url "workflow:my_approval_records" %}"><i class="fa fa-circle-o"></i>我的审批记录</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-smile-o"></i>
+                        <span>个人中心</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{% url 'users:my_information' %}"><i class="fa fa-circle-o"></i>个人设置</a></li>
+                        <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>修改密码</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>UI Elements</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
+                        <li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
+                        <li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
+                        <li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
+                        <li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
+                        <li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-edit"></i> <span>Forms</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="../forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
+                        <li><a href="../forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
+                        <li><a href="../forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i> <span>Tables</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="../tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
+                        <li><a href="../tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../calendar.html">
+                        <i class="fa fa-calendar"></i> <span>Calendar</span>
+                        <span class="pull-right-container">
+              <small class="label pull-right bg-red">3</small>
+              <small class="label pull-right bg-blue">17</small>
+            </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../mailbox/mailbox.html">
+                        <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                        <span class="pull-right-container">
+              <small class="label pull-right bg-yellow">12</small>
+              <small class="label pull-right bg-green">16</small>
+              <small class="label pull-right bg-red">5</small>
+            </span>
+                    </a>
+                </li>
+                <li class="treeview active">
+                    <a href="#">
+                        <i class="fa fa-folder"></i> <span>Examples</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
+                        <li><a href="profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
+                        <li><a href="login.html"><i class="fa fa-circle-o"></i> Login</a></li>
+                        <li><a href="register.html"><i class="fa fa-circle-o"></i> Register</a></li>
+                        <li><a href="lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
+                        <li><a href="404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
+                        <li><a href="500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
+                        <li class="active"><a href="blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
+                        <li><a href="pace.html"><i class="fa fa-circle-o"></i> Pace Page</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-share"></i> <span>Multilevel</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-circle-o"></i> Level One
+                                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
+                                <li class="treeview">
+                                    <a href="#"><i class="fa fa-circle-o"></i> Level Two
+                                        <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+                <li class="header">LABELS</li>
+                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+                li
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- =============================================== -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+
+
+        <!-- Main content -->
+        {#        主体内容全放到这里！#}
+        {% block content %}{% endblock %}
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.0
+        </div>
+        <strong>Copyright &copy; 2009-2019 <a href="https://yuchen.wiki">alchemy for z</a>.</strong> All rights
+        reserved. 为了杭州地下城
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- Home tab content -->
+            <div class="tab-pane" id="control-sidebar-home-tab">
+
+                <!-- /.control-sidebar-menu -->
+
+
+            </div>
+            <!-- /.tab-pane -->
+            <!-- Stats tab content -->
+            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+            <!-- /.tab-pane -->
+            <!-- Settings tab content -->
+            <!-- /.tab-pane -->
+        </div>
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+</div>
+
+{% include "common/_footer.html" %}
+<!-- ./wrapper -->
+
+{% block js %}{% endblock %}
+</body>
+</html>

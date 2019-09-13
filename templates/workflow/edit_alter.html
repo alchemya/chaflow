@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+{% block head %}
+    提交变更
+{% endblock %}
+{% block css %}
+
+    <style>
+        .kind-content {
+            width: 100%;
+            min-height: 200px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb" style="margin-bottom: 0;">
+        <li><a href="#" style="font-size: large">变更管理</a></li>
+        <li class="active" style="font-size: large">编辑具体变更</li>
+    </ol>
+
+
+
+
+    <div style="padding: 5px 8px;">
+        <form method="POST" action=""  novalidate name="form1">
+            {% csrf_token %}
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">1.基本信息</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ form.alter_title.label }}<span style="color: red">{{ form.alter_title.errors.0 }}</span></label>
+                                {{ form.alter_title }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更开始时间:<span style="color: red">{{ form.start_time.errors.0 }}</span></label>
+                                <div class="input-group date form_datetime"
+                                     data-date-format="dd MM yyyy - HH:ii p"
+                                     data-link-field="dtp_input1">
+                                    <input class="form-control" id="start_time2" size="16" type="text"
+                                           name="start_time2" value="{{ start_time }}" readonly>
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="dtp_input1" value="{{ start_time }}" name="start_time"/>
+
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更结束时间:<span style="color: red">{{ form.end_time.errors.0 }}</span></label>
+                                <div class="input-group date form_datetime"
+                                     data-date-format="dd MM yyyy - HH:ii p"
+                                     data-link-field="dtp_input2">
+                                    <input class="form-control" size="16" type="text" name="end_time2" value="{{ end_time }}"
+                                           readonly>
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="dtp_input2" value="{{ end_time }}" name="end_time"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>申请人</label>
+                                <input class="form-control" id="" maxlength="128" name="username" type="text"
+                                       value="{{ user.username }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>电话</label>
+                                <input class="form-control" id="" maxlength="128" name="mobile" type="text"
+                                       value="{% if user.mobile %}{{ user.mobile }}{% else %}未填写电话{% endif %}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>所属团队</label>
+                                <input class="form-control" id="" maxlength="128" name="department" type="text"
+                                       value="{% if user.department %}{{ user.department }}{% else %}未填写团队{% endif %}"
+                                       readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>{{ form.operator.label }}<span style="color: red">{{ form.operator.errors.0 }}</span></label>
+                                {{ form.operator }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.risk_level.label }}<span style="color: red">{{ form.risk_level.errors.0 }}</span></label>
+                                {{ form.risk_level }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.alter_type.label }}<span style="color: red">{{ form.alter_type.errors.0 }}</span></label>
+                                {{ form.alter_type }}
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                 <label>{{ form.memo.label }}<span style="color: red">{{ form.memo.errors.0 }}</span></label>
+                                {{ form.memo }}
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+            </div>
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">2.变更内容</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>{{ form.alter_momo.label }}<span style="color: red">{{ form.alter_momo.errors.0 }}</span></label>
+                                {{ form.alter_momo }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.change_type.label }}<span style="color: red">{{ form.change_type.errors.0 }}</span></label>
+                                {{ form.change_type }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>{{ form.approve_user.label }}<span style="color: red">{{ form.approve_user.errors.0 }}</span></label>
+                                {{ form.approve_user }}
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label>{{ form.other_env.label }}<span style="color: red">{{ form.other_env.errors.0 }}</span></label>
+                                {{ form.other_env }}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>{{ form.alter_description.label }}<span style="color: red">{{ form.alter_description.errors.0 }}</span></label>
+                                {{ form.alter_description }}
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+            </div>
+
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">3.风险评估</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ form.alter_effect.label }}<span style="color: red">{{ form.alter_effect.errors.0 }}</span></label>
+                                {{ form.alter_effect }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ form.technical_director.label }}<span style="color: red">{{ form.technical_director.errors.0 }}</span></label>
+                                {{ form.technical_director }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{ form.customer_director.label }}<span style="color: red">{{ form.customer_director.errors.0 }}</span></label>
+                                {{ form.customer_director }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ form.alter_stop_time.label }}<span style="color: red">{{ form.alter_stop_time.errors.0 }}</span></label>
+                                {{ form.alter_stop_time }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ form.alter_stop_range.label }}<span style="color: red">{{ form.alter_stop_range.errors.0 }}</span></label>
+                                {{ form.alter_stop_range }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>{{ form.technical_director_opnion.label }}<span style="color: red">{{ form.technical_director_opnion.errors.0 }}</span></label>
+                                {{ form.technical_director_opnion }}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>{{ form.committee_opnion.label }}<span style="color: red">{{ form.committee_opnion.errors.0 }}</span></label>
+                                {{ form.committee_opnion }}
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+
+            </div>
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">4.实施阶段</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>{{ form.implement_plan.label }}<span style="color: red">{{ form.implement_plan.errors.0 }}</span></label>
+                                {{ form.implement_plan }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.implement_plan_time.label }}<span style="color: red">{{ form.implement_plan_time.errors.0 }}</span></label>
+                                {{ form.implement_plan_time }}
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>{{ form.implement_validate_plan.label }}<span style="color: red">{{ form.implement_validate_plan.errors.0 }}</span></label>
+                                {{ form.implement_validate_plan }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.implement_validate_plan_time.label }}<span style="color: red">{{ form.implement_validate_plan_time.errors.0 }}</span></label>
+                                {{ form.implement_validate_plan_time }}
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+
+            </div>
+
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">5.回退阶段</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>{{ form.back_plan.label }}<span style="color: red">{{ form.back_plan.errors.0 }}</span></label>
+                                {{ form.back_plan }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.back_plan_time.label }}<span style="color: red">{{ form.back_plan_time.errors.0 }}</span></label>
+                                {{ form.back_plan_time }}
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>{{ form.back_validate_plan.label }}<span style="color: red">{{ form.back_validate_plan.errors.0 }}</span></label>
+                                {{ form.back_validate_plan }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.back_validate_plan_time.label }}<span style="color: red">{{ form.back_validate_plan_time.errors.0 }}</span></label>
+                                {{ form.back_validate_plan_time }}
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+
+            </div>
+
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">6.应急处理阶段（选填，无须回退时必须填写）</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>{{ form.yingji_plan.label }}<span style="color: red">{{ form.yingji_plan.errors.0 }}</span></label>
+                                {{ form.yingji_plan }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.yingji_plan_time.label }}<span style="color: red">{{ form.yingji_plan_time.errors.0 }}</span></label>
+                                {{ form.yingji_plan_time }}
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>{{ form.yingji_validate_plan.label }}<span style="color: red">{{ form.yingji_validate_plan.errors.0 }}</span></label>
+                                {{ form.yingji_validate_plan }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>{{ form.yingji_validate_plan_time.label }}<span style="color: red">{{ form.yingji_validate_plan_time.errors.0 }}</span></label>
+                                {{ form.yingji_validate_plan_time }}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success " value="提交流程" onclick="send()">
+                                &nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;
+                                <input type="submit" class="btn btn-primary " value="更新并关闭" onclick="save()">
+                                 &nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;
+                                <input type="submit" class="btn btn-danger " value="删除变更" onclick="delete_alter()">
+                            </div>
+
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+
+            </div>
+
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script charset="utf-8" src="/static/plugins/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="/static/plugins/kindeditor/lang/zh_CN.js"></script>
+
+    <script>
+        KindEditor.ready(function (K) {
+            var editor = K.create('#detail', {
+                resizeType: 1
+            });
+        });
+        function send() {
+            document.form1.action = "{% url "workflow:update_and_submit"  alter_id %}";
+            document.form1.submit();
+        };
+
+        function save() {
+            document.form1.action = "{% url "workflow:update_and_save" alter_id %}";
+            document.form1.submit();
+        };
+
+        function delete_alter() {
+            document.form1.action = "{% url 'workflow:delete_my_submit_alter' alter_id %}";
+            document.form1.submit();
+        }
+    </script>
+
+
+{% endblock %}

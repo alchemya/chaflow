@@ -1,0 +1,443 @@
+{% extends "base.html" %}
+{% block head %}
+    查看变更详情
+{% endblock %}
+{% block css %}
+
+    <style>
+        .kind-content {
+            width: 100%;
+            min-height: 200px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb" style="margin-bottom: 0;">
+        <li><a href="#" style="font-size: large">变更管理</a></li>
+        <li class="active" style="font-size: large">查看变更详情</li>
+    </ol>
+    <div style="padding: 5px 8px;">
+            <div class="box box-info">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">1.基本信息</h3>
+
+
+                    <div class="box-tools pull-right">
+                        {% if alter_object.alter_status == 1 or alter_object.alter_status == 2 and alter_object.proposer == request.user %}
+                            <a href="{% url 'workflow:edit_alter' alter_object.alter_id %}" style="margin-right: 30px;"><button type="button" class="btn btn-info ">修改具体内容</button></a>
+                        {% endif %}
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>变更标题</label>
+                                <input class="form-control" id="id_alter_title" maxlength="128" name="alter_title"
+                                       type="text" value="{{ alter_object.alter_title }}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更开始时间:</label>
+                                <input class="form-control" id="id_alter_title" maxlength="128" name="alter_title"
+                                       type="text" value="{{ alter_object.start_time }}" readonly/>
+{#                                <div class="input-group date form_datetime"#}
+{#                                     data-date-format="dd MM yyyy - HH:ii p"#}
+{#                                     data-link-field="dtp_input1">#}
+{#                                    <input class="form-control" id="start_time2" size="16" type="text"#}
+{#                                           name="start_time2" value="{{ alter_object.start_time }}" disabled>#}
+{#                                    <span class="input-group-addon"><span#}
+{#                                            class="glyphicon glyphicon-remove"></span></span>#}
+{#                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>#}
+{#                                </div>#}
+{#                                <input type="hidden" id="dtp_input1" value="" name="start_time"/>#}
+
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更结束时间:</label>
+                                <input class="form-control" id="id_alter_title" maxlength="128" name="alter_title"
+                                       type="text" value="{{ alter_object.end_time }}" readonly/>
+{#                                <div class="input-group date form_datetime"#}
+{#                                     data-date-format="dd MM yyyy - HH:ii p"#}
+{#                                     data-link-field="dtp_input2">#}
+{#                                    <input class="form-control" size="16" type="text" name="end_time2" value="{{ alter_object.end_time }}"#}
+{#                                           disabled>#}
+{#                                    <span class="input-group-addon"><span#}
+{#                                            class="glyphicon glyphicon-remove"></span></span>#}
+{#                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>#}
+{#                                </div>#}
+{#                                <input type="hidden" id="dtp_input2" value="" name="end_time"/>#}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>申请人</label>
+                                <input class="form-control" id="" maxlength="128" name="username" type="text"
+                                       value="{{ alter_object.proposer }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>电话</label>
+                                <input class="form-control" id="" maxlength="128" name="mobile" type="text"
+                                       value="{{ alter_object.proposer.mobile|default:"未填写电话" }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>所属团队</label>
+                                <input class="form-control" id="" maxlength="128" name="department" type="text"
+                                       value="{{ alter_object.proposer.department|default:"未填写团队信息" }}"
+                                       readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更操作人</label>
+                                <input class="form-control" id="" maxlength="128" name="operator" type="text"
+                                       value="{{ alter_object.operator }}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>风险等级</label>
+                                <input class="form-control" id="" maxlength="128" name="risk_level" type="text"
+                                       value="{{ alter_object.get_risk_level_display }}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>变更类型</label>
+                                <input class="form-control" id="" maxlength="128" name="alter_type" type="text"
+                                       value="{{ alter_object.get_alter_type_display }}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>备注</label>
+                                <input class="form-control" id="id_memo" maxlength="128" name="memo" type="text"
+                                      value="{{ alter_object.memo }}" readonly>
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+
+                 <div class="box-header with-border">
+                    <h3 class="box-title">2.变更内容</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>变更内容概括</label>
+                                <textarea readonly class="form-control" cols="40" id="id_alter_momo" name="alter_momo" rows="3"
+                                          required>{{ alter_object.alter_desc_set.first.alter_momo }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>修改类型</label>
+                                <input class="form-control" id="id_memo" maxlength="128" name="change_type" type="text"
+                                      value="{{ alter_object.alter_desc_set.first.get_change_type_display }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>提出人</label>
+                                <input readonly class="form-control" id="id_approve_user" maxlength="128" name="approve_user"
+                                       type="text" required value="{{ alter_object.alter_desc_set.first.approve_user }}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label>涉及环境</label>
+                                <input class="form-control" id="id_other_env" maxlength="128" name="other_env"
+                                       type="text" readonly value="{{ alter_object.alter_desc_set.first.other_env }}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>详细说明</label>
+                                <textarea class="kind-content" cols="40" id="detail" name="alter_description" rows="10"
+                                          >{{ alter_object.alter_desc_set.first.alter_description }}
+</textarea>
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">3.风险评估</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>业务影响</label>
+                                <input class="form-control" id="" maxlength="128" name="alter_effect" type="text"
+                                       value="{{ alter_object.get_alter_effect_display }}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>团队技术负责人</label>
+                                 <input class="form-control" id="" maxlength="128" name="technical_director" type="text"
+                                       value="{{ alter_object.technical_director }}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>客户负责人</label>
+                                 <input class="form-control" id="" maxlength="128" name="customer_director" type="text"
+                                       value="{{ alter_object.customer_director }}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>业务中断时间</label>
+                                <input class="form-control" id="id_alter_stop_time" maxlength="128"
+                                       name="alter_stop_time" placeholder="如果没有，请填写无" type="text" value="{{ alter_object.alter_stop_time|default:"无" }}" required readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>业务中断范围</label>
+                                <input class="form-control" id="id_alter_stop_range" maxlength="128"
+                                       name="alter_stop_range" placeholder="如果没有，请填写无" type="text" readonly value="{{ alter_object.alter_stop_range|default:"无" }}"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>团队技术负责人意见</label>
+                                <textarea class="form-control" cols="40" id="id_technical_director_opnion"
+                                          name="technical_director_opnion" rows="2" required readonly>{{ alter_object.technical_director_opnion }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>方案评审会评审意见</label>
+                                <textarea class="form-control" cols="40" id="id_committee_opnion"
+                                          name="committee_opnion" rows="2" required readonly>{{ alter_object.committee_opnion }}</textarea>
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">4.实施阶段</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>实施方案</label>
+                                <input class="form-control" id="id_implement_plan" maxlength="500" name="implement_plan"
+                                       type="text" value="{{ alter_object.implement_plan }}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>实施方案预计耗时</label>
+                                <input class="form-control" id="id_implement_plan_time" maxlength="128"
+                                       name="implement_plan_time" type="text" value="{{ alter_object.implement_plan_time }}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>实施后验证方案</label>
+                                <input class="form-control" id="id_implement_validate_plan" maxlength="500"
+                                       name="implement_validate_plan" type="text" value="{{ alter_object.implement_validate_plan }}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>实施后预计耗时</label>
+                                <input class="form-control" id="id_implement_validate_plan_time" maxlength="128"
+                                       name="implement_validate_plan_time" type="text" value="{{ alter_object.implement_validate_plan_time }}" readonly/>
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">5.回退阶段</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>回退方案</label>
+                                <input class="form-control" id="id_back_plan" maxlength="500" name="back_plan"
+                                       type="text" readonly value="{{ alter_object.back_plan }}" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>回退方案预计耗时</label>
+                                <input class="form-control" id="id_back_plan_time" maxlength="128" name="back_plan_time"
+                                       type="text" readonly value="{{ alter_object.back_plan_time }}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>回退后验证方案</label>
+                                <input class="form-control" id="id_back_validate_plan" maxlength="500"
+                                       name="back_validate_plan" type="text" value="{{ alter_object.back_validate_plan }}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>回退后预计耗时</label>
+                                <input class="form-control" id="id_back_validate_plan_time" maxlength="128"
+                                       name="back_validate_plan_time" type="text" value="{{ alter_object.back_validate_plan_time }}" readonly/>
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">6.应急处理阶段（选填，无须回退时必须填写）</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>应急预案</label>
+                                <input class="form-control" id="id_yingji_plan" maxlength="128" name="yingji_plan"
+                                       type="text" readonly value="{{ alter_object.yingji_plan|default:"无" }}">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>应急预案预期耗时</label>
+                                <input class="form-control" id="id_yingji_plan_time" maxlength="128"
+                                       name="yingji_plan_time" readonly type="text" value="{{ alter_object.yingji_plan_time|default:"无" }}">
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>应急处理后验证方案</label>
+                                <input class="form-control" id="id_yingji_validate_plan" maxlength="128"
+                                       name="yingji_validate_plan" readonly type="text" value="{{ alter_object.yingji_validate_plan|default:"无" }}">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>验证方案预期耗时</label>
+                                <input class="form-control" id="id_yingji_validate_plan_time" maxlength="128"
+                                       name="yingji_validate_plan_time" readonly type="text" value="{{ alter_object.yingji_validate_plan_time|default:"无" }}">
+                            </div>
+                        </div>
+
+
+                        <!-- /.col -->
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script charset="utf-8" src="/static/plugins/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="/static/plugins/kindeditor/lang/zh_CN.js"></script>
+
+    <script>
+        KindEditor.ready(function (K) {
+            var editor = K.create('#detail', {
+                resizeType: 1,
+                readonlyMode : true,
+            });
+        });
+    </script>
+
+{% endblock %}

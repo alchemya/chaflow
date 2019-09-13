@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block head %}
+    查看用户信息
+{% endblock %}
+{% block css %}
+
+    <style>
+        .kind-content {
+            width: 100%;
+            min-height: 200px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb" style="margin-bottom: 0;">
+        <li><a href="#" style="font-size: large">个人中心</a></li>
+        <li class="active" style="font-size: large">查看用户信息</li>
+    </ol>
+    <div class="col-md-12">
+
+        <!-- Profile Image -->
+        <div class="box box-primary">
+            <div class="box-body box-profile">
+                {% if user.photo %}
+                    <img src="{{ user.photo | striptags }}" class="profile-user-img img-responsive img-circle"
+                         id="my_photo" name="user_face" alt="User profile picture">
+                {% else %}
+                    <img name="user_face" src="{% static '/img/evelyn.png' %}"
+                         class="profile-user-img img-responsive img-circle"
+                         id="my_photo" alt="User profile picture">
+                {% endif %}
+
+
+
+                <h3 class="profile-username text-center">{{ user.username }}</h3>
+
+                <p class="text-muted text-center">{{ user.postion }}</p>
+
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>邮箱(填写邮箱后也可作为登录账号)</b> <a class="pull-right">{{ user.email|default:"未在设置中更新" }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>公司</b> <a class="pull-right">{{ user.company|default:"未在设置中更新" }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>所属团队</b> <a class="pull-right">{{ user.department|default:"未在设置中更新" }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>联系电话</b> <a class="pull-right">{{ user.mobile|default:"未在设置中更新" }}</a>
+                    </li>
+
+                </ul>
+
+                <div class="box-header with-border">
+                    <h3>关于我</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <h4><i class="fa fa-book margin-r-5"></i>自我介绍</h4>
+
+                    <p class="text-muted" style="height:150px;font-size: 16px">
+
+                        {% if user.memo %}
+
+                            {{ user.memo|linebreaksbr }}
+                        {% else %}
+                            还没有填写
+                        {% endif %}
+                    </p>
+
+                    <hr>
+
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+
+
+            <!-- /.box-body -->
+        </div>
+    </div>
+    <!-- /.box -->
+
+
+
+{% endblock %}
+

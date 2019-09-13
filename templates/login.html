@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login page |猹flow</title>
+
+
+	<!--STYLESHEET-->
+	<!--=================================================-->
+
+    {% include 'common/_heads.html' %}
+
+
+
+
+    <link href="/static/plugins/bootstrap-validator/bootstrapValidator.min.css" rel="stylesheet">
+
+    <style>
+        .cls-container{
+            background-image : url("/static/img/miaoqian.png");
+            background-repeat:no-repeat;
+            background-size:100% 100%;
+            -moz-background-size:100% 100%;
+        }
+
+    </style>
+
+
+</head>
+
+<!--TIPS-->
+<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
+
+<body>
+	<div id="container" class="cls-container">
+		
+		<!-- BACKGROUND IMAGE -->
+		<!--===================================================-->
+		<!--<div id="bg-overlay" ></div>-->
+        <div id="bg-overlay" class="bg-img" style="background-image: url(img/bg-img-3.jpg)"></div>
+
+		
+		
+		<!-- HEADER -->
+		<!--===================================================-->
+		<div class="cls-header cls-header-lg">
+			<div class="cls-brand">
+				<!--a class="box-inline" href="index.html">
+                    <img src="/static/img/eye_logo.png" alt="Nifty Logo"  >
+                    MadKing
+
+
+				</a-->
+                <h3 style="color: white">Cha</h3>
+                <h4 style="color: white">问题&变更管理系统</h4>
+			</div>
+		</div>
+		<!--===================================================-->
+		
+		
+		<!-- LOGIN FORM -->
+		<!--===================================================-->
+		<div class="cls-content">
+			<div class="cls-content-sm panel">
+				<div class="panel-body">
+					<p class="pad-btm">欢迎使用本系统</p>
+
+					<form id="loginForm" action="{% url 'login' %}?next={{ next  }}" method="POST"> {% csrf_token %}
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon"><i class="fa fa-user"></i></div>
+								<input type="text" class="form-control" name="email" placeholder="请输入用户名或邮箱">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon"><i class="fa fa-asterisk"></i></div>
+								<input type="password" class="form-control" name="password" placeholder="输入密码">
+							</div>
+						</div>
+						<!--div class="row">
+							<div class="col-xs-8 text-left checkbox">
+								<label class="form-checkbox form-icon">
+								<input type="checkbox"> 记住我
+								</label>
+							</div>
+							<div class="col-xs-8">
+								<div class="form-group text-right">
+								<button class="btn btn-success text-uppercase" type="submit">登录</button>
+								</div>
+							</div>
+						</div>
+						<div class="mar-btm"><em>- or -</em></div-->
+						<button class="btn btn-success  btn-block" type="submit">
+							<b>登录</b>
+						</button>
+                        <input type="hidden" name="next" value="{{ next }}" />
+                        <h4 style="color: red"><b>{{ login_err }}</b></h4>
+					</form>
+				</div>
+			</div>
+			<div class="pad-ver">
+				<a href="#" class="btn-link mar-rgt" style="color: white">忘记了密码?</a>
+			</div>
+		</div>
+		<!--===================================================-->
+		
+
+		
+		
+	</div>
+	<!--===================================================-->
+	<!-- END OF CONTAINER -->
+
+
+		
+	<!--JAVASCRIPT-->
+	<!--=================================================-->
+
+	<!--jQuery [ REQUIRED ]-->
+	<script src="/static/js/jquery-2.1.1.min.js"></script>
+
+
+	<!--BootstrapJS [ RECOMMENDED ]-->
+	<script src="/static/js/bootstrap.min.js"></script>
+
+
+
+    <script src="/static/plugins/bootstrap-validator/bootstrapValidator.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#loginForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            email: {
+                message: '用户名不能为空',
+                validators: {
+                    notEmpty: {
+                        message: '用户名不能为空'
+                    },
+                    stringLength: {
+                        min: 2,
+                        max: 30,
+                        message: '用户名需要大于2个字符'
+                    },
+
+                }
+            },
+            password:{
+                message: "The password is not valid",
+                validators:{
+                    notEmpty:{
+                        'message': "密码不能为空"
+                    },
+                    stringLength:{
+                        min:3,
+                        max:30,
+                        message:'密码需要大于一定长度'
+                    },
+                }
+            },
+
+
+        }
+    });
+});
+
+</script>
+
+</body>
+</html>

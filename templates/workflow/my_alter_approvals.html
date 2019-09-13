@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load alterflow_tags %}
+
+{% block head %}
+    需要我审批的流程
+{% endblock  %}
+
+{% block content %}
+    <ol class="breadcrumb" style="margin-bottom: 0;">
+        <li><a href="#" style="font-size: large">变更管理</a></li>
+        <li class="active" style="font-size: large">需要我审批的流程</li>
+    </ol>
+     <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ flow_obj }}</h3>
+        </div>
+
+        <!-- Striped Table -->
+        <!--===================================================-->
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>变更名称</th>
+
+                            <th>当前步骤</th>
+                            <th>发起时间</th>
+                            <th>申请人</th>
+
+                            <th>变更详情</th>
+                            {% if queue_flow.step.order != 1 %}
+                            <th>上一环节审批人</th>
+                            <th>上一环节审批意见</th>
+                            <th>上一环节审批结果</th>
+                            <th>上一环节审批时间</th>
+                            {% endif %}
+                            <th>当前状态</th>
+                            <th>审批</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if queued_flows %}
+                            {% for flow_record in queued_flows  %}
+                                {% get_last_step_obj flow_record as last_step_record_obj %}
+
+                                <tr>
+                                    <td>{{ flow_record.flow.alter_title }}</td>
+
+                                    <td>{{ flow_record }}</td>
+                                    <td>{{ flow_record.flow.date }}</td>
+                                    <td><a href="{% url 'users:user_info' flow_record.flow.proposer.id %}">{{ flow_record.flow.proposer }}</a></td>
+
+                                    <td ><a href="{% url 'workflow:show_alter' flow_record.flow.alter_id %}"><i style="cursor: pointer;color: #1c94c4" class="fa fa-fw fa-file-word-o " aria-hidden="true"></i></a></td>
+                                    {% if queue_flow.step.order != 1 %}
+                                    <td class="btn-info"> <a style="color: white" href="{% url 'users:user_info' last_step_record_obj.user.id %}">{{ last_step_record_obj.user }}</a></td>
+                                    <td class="btn-info">{{ last_step_record_obj.comment }}</td>
+                                    <td class="btn-info">{{ last_step_record_obj.get_status_display }}</td>
+                                    <td class="btn-info">{{ last_step_record_obj.date }}</td>
+                                    {% endif %}
+
+                                    <td>{{ flow_record.get_status_display }}</td>
+
+                                    <td><a href="{% url "workflow:alter_approve" flow_record.id %}"><i style="cursor: pointer;color: #1c94c4" class="fa fa-pencil-square-o " aria-hidden="true"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr><td style="text-align: center" colspan="10"><span style="font-size: 20px">当前无需要审批的流程!</span></td></tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

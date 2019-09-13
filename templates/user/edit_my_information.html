@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block head %}
+    查看个人信息
+{% endblock %}
+{% block css %}
+
+    <style>
+        .kind-content {
+            width: 100%;
+            min-height: 200px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb" style="margin-bottom: 0;">
+        <li><a href="#" style="font-size: large">个人中心</a></li>
+        <li class="active" style="font-size: large">编辑个人信息</li>
+    </ol>
+    <div class="col-md-6">
+
+        <!-- Profile Image -->
+        <div class="box box-primary">
+            <div class="box-body box-profile">
+                {% if user.photo %}
+                        <img  src="{{ user.photo | striptags }}" class="profile-user-img img-responsive img-circle"
+                             id="my_photo" name="user_face" alt="User profile picture">
+                    {% else %}
+                        <img  name="user_face" src="{% static '/img/evelyn.png' %}"
+                             class="profile-user-img img-responsive img-circle"
+                             id="my_photo" alt="User profile picture">
+                    {% endif %}
+
+                <h3 class="profile-username text-center">{{ user.username }}</h3>
+                <ul class="list-group ">
+                    <li class="list-group-item">
+                        <form method="post" action="{% url 'users:edit_my_information' %}">
+                            <b>工作职位</b>
+                            <div class="form-group">
+                                {{ form.postion }}
+                            </div>
+                            <b>邮箱(填写邮箱后也可作为登录账号)</b>
+                            <div class="form-group">
+                                {{ form.email }}
+                            </div>
+                            <b>联系电话</b>
+                            <div class="form-group">
+                                {{ form.mobile }}
+                            </div>
+                            <b>公司</b>
+                            <div class="form-group">
+                                {{ form.company }}
+                            </div>
+                            <b>所属团队</b>
+                            <div class="form-group">
+                                {{ form.department }}
+                            </div>
+                            <b>自我介绍</b>
+                            <div class="form-group">
+                                {{ form.memo }}
+                            </div>
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-success " value="提交">
+                        </form>
+                    </li>
+
+                </ul>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+
+        <!-- /.box -->
+    </div>
+    <div class="col-md-6">
+        <!-- About Me Box -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">修改头像</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <strong><i class="fa fa-book margin-r-5"></i>注意！上传头像后一定要拖动一下圆形区域，否则无法修改成功</strong>
+
+                <div style="text-align: center; ">
+                    {% if user.photo %}
+                        <img style="width: 250px;height: 250px " src="{{ user.photo | striptags }}" class="img-circle"
+                             id="my_photo" name="user_face">
+                    {% else %}
+                        <img style="width: 250px;height: 250px " name="user_face" src="{% static '/img/evelyn.png' %}"
+                             class="img-circle"
+                             id="my_photo">
+                    {% endif %}
+
+
+                </div>
+                <br>
+                <div style="text-align: center">
+                    <button class="btn btn-primary" id="upload_image" onclick="upload_image_layer()">上传照片
+                    </button>
+                </div>
+
+                <!-- /.box-body -->
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'common/layer.js' %}"></script>
+    <script>
+        function upload_image_layer() {
+            layer.open({
+                //content:"<p>hello world</p>",
+                title: "上传头像(注意！上传头像后一定要拖动一下圆形区域，否则修改不成功)",
+                area: ['650px', '600px'],
+                type: 2,
+                content: "{% url 'users:my_image' %}",
+            });
+        }
+    </script>
+
+{% endblock %}

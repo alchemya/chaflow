@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block head %}
+    查看个人信息
+{% endblock %}
+{% block css %}
+
+    <style>
+        .kind-content {
+            width: 100%;
+            min-height: 200px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb" style="margin-bottom: 0;">
+        <li><a href="#" style="font-size: large">个人中心</a></li>
+        <li class="active" style="font-size: large">查看个人信息</li>
+    </ol>
+    <div class="col-md-6">
+
+        <!-- Profile Image -->
+        <div class="box box-primary">
+            <div class="box-body box-profile">
+                {% if user.photo %}
+                    <img src="{{ user.photo | striptags }}" class="profile-user-img img-responsive img-circle"
+                         id="my_photo" name="user_face" alt="User profile picture">
+                {% else %}
+                    <img name="user_face" src="{% static '/img/evelyn.png' %}"
+                         class="profile-user-img img-responsive img-circle"
+                         id="my_photo" alt="User profile picture">
+                {% endif %}
+
+
+
+                <h3 class="profile-username text-center">{{ user.username }}</h3>
+
+                <p class="text-muted text-center">{{ user.postion }}</p>
+
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>邮箱(填写邮箱后也可作为登录账号)</b> <a class="pull-right">{{ user.email|default:"未在设置中更新" }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>公司</b> <a class="pull-right">{{ user.company|default:"未在设置中更新" }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>所属团队</b> <a class="pull-right">{{ user.department|default:"未在设置中更新" }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>联系电话</b> <a class="pull-right">{{ user.mobile|default:"未在设置中更新" }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>上次登陆时间</b> <a class="pull-right">{{ user.last_login }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>系统权限开始时间</b> <a class="pull-right">{{ user.valid_begin_time }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>系统权限结束时间</b> <a class="pull-right">{{ user.valid_end_time|default:"账户属于永久性账户" }}</a>
+                    </li>
+
+                </ul>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+
+        <!-- /.box -->
+    </div>
+    <div class="col-md-6">
+        <!-- About Me Box -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h2>关于我</h2>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <h3><i class="fa fa-book margin-r-5"></i>自我介绍</h3>
+
+                <p class="text-muted" style="height:225px;font-size: 20px">
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{ user.memo|linebreaksbr }}
+                </p>
+
+                <hr>
+                <a href="{% url 'users:edit_my_information' %}" class="btn btn-primary pull-right"><b>编辑个人信息</b></a>
+
+            </div>
+
+            <!-- /.box-body -->
+        </div>
+
+
+    </div>
+
+
+
+{% endblock %}
+

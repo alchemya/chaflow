@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 错误页 | 猹flow</title>
+
+    {% include "common/_heads.html" %}
+    <!--Nifty Stylesheet [ REQUIRED ]-->
+<link href="/static/css/nifty.css" rel="stylesheet">
+
+
+</head>
+
+<!--TIPS-->
+<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
+
+<body>
+<div id="container" class="cls-container">
+
+    <!-- HEADER -->
+    <!--===================================================-->
+    <div class="cls-header">
+        <div class="cls-brand">
+            <a class="box-inline" href="{% url 'dashboard'%}">
+                <span class="brand-title">Cha<span class="text-thin">&nbsp;&nbsp;流程系统</span></span>
+            </a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <!--===================================================-->
+    <div class="cls-content">
+        <h1 class="error-code text-info">403</h1>
+        <p class="text-main text-semibold text-lg text-uppercase">permission_denied!</p>
+        <div class="pad-btm text-muted">
+            抱歉，你暂时无权限访问相关页面 或 相关操作已无法进行更改
+        </div>
+
+        <hr class="new-section-sm bord-no">
+        <div class="pad-top"><a class="btn-link" href="{% url 'dashboard' %}">返回首页</a></div>
+    </div>
+
+
+</div>
+<!--===================================================-->
+<!-- END OF CONTAINER -->
+
+{% include "common/_footer.html" %}
+</body>
+</html>
+

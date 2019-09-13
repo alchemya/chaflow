@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load alterflow_tags %}
+
+{% block head %}
+    变更所处流程详情
+{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb" style="margin-bottom: 0;">
+        <li><a href="#" style="font-size: large">变更管理</a></li>
+        <li class="active" style="font-size: large">变更所处流程详情</li>
+    </ol>
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ flow_obj }}</h3>
+        </div>
+
+        <!-- Striped Table -->
+        <!--===================================================-->
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>环节</th>
+                            <th>审批人</th>
+
+                            <th>审批人意见</th>
+                            <th>审批时间</th>
+                            <th>审批状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for step_record in flow_obj.flowrecord_set.all %}
+                        <tr>
+                            <td>{{ step_record.step }}</td>
+                            <td>{% if step_record.user %}
+                                    <a href="{% url 'users:user_info' step_record.user.id %}">{{ step_record.user }}</a>
+                                {% else %}
+                                    暂未审批
+                                {% endif %}</td>
+                            <td>{% if step_record.comment %}{{ step_record.comment }}{% else %}暂无{% endif %}</td>
+                            <td>{{ step_record.date }}</td>
+                            <td>{{ step_record.get_status_display }}</td>
+
+                            <td>{{ obj.date }}</td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
